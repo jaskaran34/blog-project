@@ -8,6 +8,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use Exception;
+Use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -16,6 +17,13 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function user_all_post(){
+            $user_id = Auth::user()->id;
+            $user = User::findOrFail($user_id);
+            $posts = $user->posts()->get();
+            return PostResource::collection($posts);
+     }
     public function index()
     {
         //return Post::all();
@@ -37,8 +45,8 @@ class PostController extends Controller
     {
         //return $request->title;
         try{
-
-            $user = User::findOrFail(1);
+            $user_id = Auth::user()->id;
+            $user = User::findOrFail($user_id);
             $post = $user->posts()->create([
                 'title' => $request->title,
                 'description' => $request->description
@@ -74,10 +82,10 @@ class PostController extends Controller
     //UpdatePostRequest
     public function update(UpdatePostRequest $request, $id)
 {
-        
+        //return $request->title;
         try{
-
-            $user = User::findOrFail(1);
+            $user_id = Auth::user()->id;
+            $user = User::findOrFail($user_id);
             $post = $user->posts()->where('id',$id)->firstOrFail();
             $post->update([
                 'title' => $request->title,
@@ -97,5 +105,7 @@ class PostController extends Controller
     public function destroy(Post $post,$id)
     {
         $post->where('id',$id)->delete();
+
+        return "post deleted";
     }
 }

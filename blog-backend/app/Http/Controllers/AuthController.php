@@ -12,8 +12,10 @@ use \App\http\Resources\UserResource;
 class AuthController extends Controller
 {
    
-    public function user_send(){
-        return "sjjs";
+    public function profile(){
+        $user_id = Auth::user()->id;
+        $user = User::findOrFail($user_id);
+        return new UserResource($user);
     }
     public function register(Request $request)
     {
@@ -64,7 +66,7 @@ class AuthController extends Controller
 
         //return gettype($user);
 
-        $user->tokens()->delete();
+       // $user->tokens()->delete();
 
         // Generate token
         //$token = $user->createToken('auth_token')->plainTextToken;
@@ -88,6 +90,18 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
         
     }
+
+    public function logout_all(Request $request){
+        $user = Auth::user();
+
+        //return gettype($user);
+
+       $user->tokens()->delete();
+
+       return response()->json(['message' => 'Logged out successfully of all logins']);
+    }
+
+
 
 
     //end class
