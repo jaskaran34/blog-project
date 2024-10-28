@@ -12,7 +12,7 @@ use \App\Http\Middleware\check_owner;
     
 Route::get('/posts',[PostController::class,'index']);
 Route::get('/posts/user/',[PostController::class,'user_all_post'])->middleware('auth:sanctum');
-Route::get('/posts/{id}',[PostController::class,'show'])->middleware('auth:sanctum');
+Route::get('/posts/{id}',[PostController::class,'show']);
 Route::delete('/posts/{id}',[PostController::class,'destroy'])->middleware('auth:sanctum','\App\Http\Middleware\check_owner::class');
 Route::post('/posts', [PostController::class, 'store'])->middleware(\App\Http\Middleware\Cors::class,'auth:sanctum');
 Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware(\App\Http\Middleware\Cors::class,'auth:sanctum','\App\Http\Middleware\check_owner::class');

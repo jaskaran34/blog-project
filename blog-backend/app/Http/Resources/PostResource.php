@@ -18,7 +18,9 @@ class PostResource extends JsonResource
 
         return[
             'id'=> $this->id,
+            'user_id'=>$this->user->id,
             'user'=>$this->user->name,
+            'user_email'=>$this->user->email,
             'title'=> $this->title,
             'description'=> $this->description,
             'created_at'=> $this->created_at->diffForHumans(),

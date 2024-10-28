@@ -2,13 +2,18 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+import { useAuthStore } from '@/store/authStore';
+
+  
+
 
 export default function usePosts(){
 
     const router = useRouter();
 
     const posts=ref([]);
-    const post = ref([])
+    const post = ref([]);
+    const authStore = useAuthStore();
 
     const getPosts= async() =>{
     
@@ -30,7 +35,11 @@ export default function usePosts(){
     const updatePost= async(id) =>{
         console.log(post.value);//return
         try {
-            await axios.patch(`http://127.0.0.1:8000/api/posts/${id}`,post.value);
+            await axios.patch(`http://127.0.0.1:8000/api/posts/${id}`,post.value,{
+                headers: {
+                  Authorization: `Bearer ${authStore.token}`
+                }
+              });
             await pop_message('Post Updated');
             await router.push({name: 'posts.index'})
         } catch(err){
@@ -41,7 +50,11 @@ export default function usePosts(){
     const storePosts= async(post) =>{
     
         try {
-            await axios.post('http://127.0.0.1:8000/api/posts', post);
+            await axios.post('http://127.0.0.1:8000/api/posts', post,{
+                headers: {
+                  Authorization: `Bearer ${authStore.token}`
+                }
+              });
             await pop_message('Post Created');
             await router.push({name: 'posts.index'})
         } catch(err){
@@ -63,7 +76,12 @@ export default function usePosts(){
         alert(message);
     }
     const destroy_post = async (post_id) => {
-        await axios.delete(`http://127.0.0.1:8000/api/posts/${post_id}`);
+        await axios.delete(`http://127.0.0.1:8000/api/posts/${post_id}`,{
+            headers: {
+              Authorization: `Bearer ${authStore.token}`
+            }
+          });
+        
     }
 
     return {
