@@ -3,6 +3,10 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
 
+import usePosts from '@/composables/posts.js';
+
+
+
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -16,7 +20,7 @@ const logout= async ()=>{
       Authorization: `Bearer ${authStore.token}`
     }
   });
-  console.log(res);
+
   if (res.data.message) {
     authStore.setAuthData(null, null);
     await router.push({name: 'login'});

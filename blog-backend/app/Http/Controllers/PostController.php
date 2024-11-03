@@ -27,7 +27,16 @@ class PostController extends Controller
     public function index()
     {
         //return Post::all();
-        return PostResource::collection(Post::with('user')->latest()->get());
+        
+     //   return PostResource::collection(Post::with('user')->latest()->get());
+        //    return response()->json(['message' => 'No posts available'], 200);
+     
+     $posts = Post::with('user')->latest()->get();
+
+        if ($posts->isEmpty()) {
+        return response()->json(['message' => 'No posts available'], 200);
+        }
+        return PostResource::collection($posts);
     }
 
     /**

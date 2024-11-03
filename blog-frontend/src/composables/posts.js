@@ -15,6 +15,10 @@ export default function usePosts(){
     const post = ref([]);
     const authStore = useAuthStore();
 
+    const clearPosts = async() => {
+         posts.value = []; 
+        }
+
     const getPosts= async() =>{
     
         
@@ -92,6 +96,7 @@ export default function usePosts(){
         delete_post,
         pop_message,
         storePosts,
-        updatePost
+        updatePost,
+        clearPosts
       };
 }

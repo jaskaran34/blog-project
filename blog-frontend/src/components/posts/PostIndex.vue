@@ -1,6 +1,18 @@
 
 <script setup>
-import { onMounted } from 'vue';
+
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
+$toast.success('Operation Successful!', {
+   position: 'bottom-right',
+    duration: 5000
+  });
+
+
+
+import { onBeforeMount,onMounted,onBeforeUnmount } from 'vue';
 import usePosts from '@/composables/posts.js';
 import { useAuthStore } from '@/store/authStore';
 const authStore = useAuthStore();
@@ -9,14 +21,19 @@ const authStore = useAuthStore();
 
 //console.log(authStore.user.id)
 
-const { posts, getPosts,delete_post,pop_message } = usePosts();
+const { posts, getPosts,delete_post,pop_message,clearPosts } = usePosts();
 
 
-
-onMounted( () => {
-   getPosts();
-
+onBeforeMount( () => {
 });
+
+onMounted( async() => {
+  
+  await getPosts();
+   
+});
+
+
 
 
 
@@ -27,7 +44,7 @@ onMounted( () => {
     <h1>Posts</h1>
 
     
-    <table class="min-2-full divide-y divide-gray-300">
+    <table class="min-2-full divide-y divide-gray-300" v-if="posts && posts.length && authStore.user">
       <thead>
         <tr>
             <th scope="col" class="px-6 py-3 text-start text-sm uppercase">S.no</th>
@@ -58,6 +75,7 @@ onMounted( () => {
     </tr>
       </tbody>
     </table>
+    <div v-else> No posts available. </div>
   </div>
   
   <!--
