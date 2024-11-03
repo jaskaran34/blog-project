@@ -4,6 +4,9 @@ import { useRouter } from 'vue-router';
 
 import { useAuthStore } from '@/store/authStore';
 
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
   
 
 
@@ -44,7 +47,13 @@ export default function usePosts(){
                   Authorization: `Bearer ${authStore.token}`
                 }
               });
-            await pop_message('Post Updated');
+
+              const $toast = useToast();
+                $toast.info('Post Updated', {
+                position: 'bottom-right',
+                    duration: 5000
+                });
+            //await pop_message('Post Updated');
             await router.push({name: 'posts.index'})
         } catch(err){
             console.log(err)
@@ -59,7 +68,12 @@ export default function usePosts(){
                   Authorization: `Bearer ${authStore.token}`
                 }
               });
-            await pop_message('Post Created');
+               const $toast = useToast();
+                $toast.success('Post Created', {
+                position: 'bottom-right',
+                    duration: 5000
+                });
+           /// await pop_message('Post Created');
             await router.push({name: 'posts.index'})
         } catch(err){
             console.log(err)
@@ -73,7 +87,12 @@ export default function usePosts(){
 
         await destroy_post(post_id);
         await getPosts();
-        await pop_message('Post Deleted');
+        const $toast = useToast();
+        $toast.warning('Post Deleted', {
+        position: 'bottom-right',
+            duration: 5000
+        });
+    
     }
 
     const pop_message= async(message)=>{

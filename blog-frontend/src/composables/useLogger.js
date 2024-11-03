@@ -15,8 +15,8 @@ export function useLogger() {
   watch(
     () => route.fullPath, // Watch the fullPath of the current route
     () => {
-      console.log('Token (route change):', authStore.token); // Log token when route changes
-      console.log('User (route change):', authStore.user);   // Log user when route changes
+    //  console.log('Token (route change):', authStore.token); // Log token when route changes
+    //  console.log('User (route change):', authStore.user);   // Log user when route changes
     },
     { immediate: false } // Don't execute immediately on first run; only on route change
   );

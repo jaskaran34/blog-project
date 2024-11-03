@@ -8,8 +8,31 @@ export default function login_code(){
 
     const router = useRouter();
     
-    const authStore = useAuthStore();
     
+    const authStore = useAuthStore();
+
+    const getprofile= async()=>{
+
+      try{
+        // console.log(`Bearer ${authStore.token}`);
+     let res = await axios.get(`${authStore.baseURL}/profile`,{
+     headers: {
+       Authorization: `Bearer ${authStore.token}`
+     }
+   });
+  return {
+    id:res.data.data.id,
+    name:res.data.data.name,
+    email:res.data.data.email,
+  }
+   
+ }
+     catch(e){
+         console.log(e);
+       
+
+    }
+  }
     const login = async (email,password) => {
 
         const param={
@@ -44,6 +67,6 @@ export default function login_code(){
     
 
     return {
-        login
+        login,getprofile
       };
 }

@@ -1,16 +1,4 @@
-
 <script setup>
-
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
-
-const $toast = useToast();
-$toast.success('Operation Successful!', {
-   position: 'bottom-right',
-    duration: 5000
-  });
-
-
 
 import { onBeforeMount,onMounted,onBeforeUnmount } from 'vue';
 import usePosts from '@/composables/posts.js';
