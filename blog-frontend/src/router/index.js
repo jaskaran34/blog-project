@@ -5,6 +5,9 @@ import PostEdit from '@/components/posts/PostEdit.vue'
 import Login from '@/components/auth/login.vue'
 import Logout from '@/components/auth/logout.vue'
 import Profile from '@/components/auth/profile.vue'
+import register from '@/components/auth/register.vue'
+
+
 
 import { useAuthStore } from '@/store/authStore';
 
@@ -24,6 +27,9 @@ import { useAuthStore } from '@/store/authStore';
       }
       ,
       {  path:'/profile',name:'profile',component:Profile,meta: { requiresAuth: true }
+      }
+      ,
+      {  path:'/register',name:'register',component:register
       }
  ];
 

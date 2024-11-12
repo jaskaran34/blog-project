@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/store/authStore';
 
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 
 export default function login_code(){
 
@@ -33,6 +36,40 @@ export default function login_code(){
 
     }
   }
+  const profile_update= async(name)=>{
+
+    try{
+      // console.log(`Bearer ${authStore.token}`);
+   let res = await axios.patch(`${authStore.baseURL}/profile/update`,{
+    name
+   },{
+   headers: {
+     Authorization: `Bearer ${authStore.token}`
+   }
+ });
+ const $toast = useToast();
+                $toast.success('Profile Updated', {
+                position: 'bottom-right',
+                    duration: 5000
+                });
+                
+return {
+  id:res.data.data.id,
+  name:res.data.data.name,
+  email:res.data.data.email,
+}
+
+                
+ 
+}
+   catch(e){
+       console.log(e);
+     
+
+  }
+
+}
+
     const login = async (email,password) => {
 
         const param={
@@ -67,6 +104,6 @@ export default function login_code(){
     
 
     return {
-        login,getprofile
+        login,getprofile,profile_update
       };
 }

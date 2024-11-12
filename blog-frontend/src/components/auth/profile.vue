@@ -1,8 +1,16 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import login_code from '@/composables/auth.js';
-const { getprofile } = login_code();
+const { getprofile,profile_update } = login_code();
 
+const call_update=  async()=>
+{
+  const myoro= await profile_update(user.value.name);
+  console.log(myoro);
+    user.value.id=myoro.id;
+    user.value.name=myoro.name;
+    user.value.email=myoro.email;
+};
 
 const user = ref({
     id:null,
@@ -37,7 +45,7 @@ onMounted(async ()=>{
                   focus:ring-indigo-200
                   focus:ring-opacity-5
 "
-            >
+            readonly>
           </div>
         </div>
 
@@ -71,7 +79,14 @@ onMounted(async ()=>{
                   focus:ring-indigo-200
                   focus:ring-opacity-5
 "
-            >
+            readonly>
+          </div>
+        </div>
+
+        <div>
+          <div class="mt-1">
+            
+            <button type="button" @click="call_update()" class="bg-green-500 text-white font-bold rounded px-4 py-2 hover:bg-green-700">Update</button>
           </div>
         </div>
 
