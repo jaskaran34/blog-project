@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 use \App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,15 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully']);
         
+    }
+
+    function profile_update(UpdateUserRequest $request){
+        
+        $user_id = Auth::user()->id;
+        $user = User::findOrFail($user_id);
+        $user->name = $request->name;
+        $user->save();
+        return new UserResource($user);
     }
 
     public function logout_all(Request $request){
